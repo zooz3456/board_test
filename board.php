@@ -130,6 +130,8 @@
   $sql = "SELECT count(no) FROM free";
   $result = mysqli_query($conn, $sql);
   $arr = mysqli_fetch_row($result);
+  mysqli_free_result($result);
+  mysqli_close($close);
   //ceil 함수 소수 점 이하 올림
   $num_page = ceil($arr[0] / $per_page);
 
