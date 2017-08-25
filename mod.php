@@ -37,3 +37,7 @@
 </table>
 <div align="center"><input type="submit" value="수정"></div>
 </form>
+<?php
+mysqli_free_result($result);
+mysqli_close($conn);
+?>
