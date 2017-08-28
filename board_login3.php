@@ -19,7 +19,6 @@ $rows=mysqli_num_rows($result);
 $arr=mysqli_fetch_assoc($result);
 if($rows)
 {
-	mysqli_free_result($result);
 	$sql="update user set active=1 where id='{$arr['id']}'";
 	$result=mysqli_query($conn,$sql);
 	echo "<script>
