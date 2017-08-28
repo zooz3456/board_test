@@ -276,12 +276,10 @@ if($rows)
 	</tr>
 	</form>
 </table>
-
+<?php
+mysqli_close($conn);
+?>
 </div>
-
 </div>
-
-</table>
-</form>
 </div>
 </body>
