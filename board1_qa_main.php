@@ -256,6 +256,7 @@ if($rows)
                 $rows = mysqli_num_rows($result);
                 //$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
                 $num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
+                mysqli_free_result()
 
             for($i=1; $i<=$num_page; $i++)
             {
