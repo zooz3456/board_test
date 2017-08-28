@@ -38,7 +38,7 @@ include 'conn.php';
 $sql="select * from board1_qa where no={$no}";
 $result=mysqli_query($conn,$sql);
 $arr=mysqli_fetch_assoc($result);
-mysqli_fetch_result($result);
+mysqli_free_result($result);
 mysqli_close($conn);
 ?>
 <div align='center'>
