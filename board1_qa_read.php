@@ -38,6 +38,7 @@ $result=mysqli_query($conn,$sql);
 $sql="select * from board1_qa where no={$no}";
 $result=mysqli_query($conn,$sql);
 $arr=mysqli_fetch_assoc($result);
+mysqli_free_result();
 ?>
 <!-- 게시글 출력 -->
 <div align='center'>
@@ -139,6 +140,7 @@ if($rows)
     echo "<table class='type06' border='1' width='80%' align='center'>";
 for($i=0; $i<$rows; $i++)
 {
+mysqli_free_result();
 ?>
 <tr>
 <form method='POST' action='board1_qa_reply_del.php'>
