@@ -28,7 +28,17 @@ input.button{
 </head>
 <body>
 
-<?php SESSION_START(); ?>
+<?php SESSION_START(); 
+if(!isset($_SESSION['id']))
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	exit;		
+}
+?>
+
 
 <div align='center'>
 <form method='POST' action='free_board_write_proc.php' enctype='multipart/form-data'>
@@ -50,6 +60,7 @@ else
 }
 ?>
 </td></tr>
+<input type='hidden'name='page'value='<?=$_GET['page']?>'>
 <tr><th width="90px">예약글</th>
 <td><input type='checkbox' name='reserve'>
 <select name='year'></select>

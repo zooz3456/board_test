@@ -5,7 +5,7 @@
   $pass = "1234"; 
   $db = "board1"; 
 
-  $conn = mysqli_connect($host, $id, $pass, $db); 
+  $conn = @mysqli_connect($host, $id, $pass, $db); 
 
   if(!$conn) 
   { 

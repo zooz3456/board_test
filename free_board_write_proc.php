@@ -2,8 +2,25 @@
 
 //print_r($_FILES);
 //sleep(3000); 3초간 대기
-include 'conn.php';
 
+if(!isset($_POST['page']))
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";
+	exit;	
+}
+if($_POST['writer']=="")
+{
+		echo "<script>
+		alert('제목을 입력 해주세요.');
+		location.href='javascript:history.back()';
+		</script>";
+		exit;
+}
+include 'conn.php';
+$page=$_POST['page'];
 $subject=mysqli_real_escape_string($conn,$_POST['subject']);
 $writer=mysqli_real_escape_string($conn,$_POST['writer']);
 $content=mysqli_real_escape_string($conn,$_POST['content']);
@@ -55,7 +72,7 @@ else
 		}
 		else
 		{
-				$sql="insert into board1_free(writer,subject,content,upload)
+				$sql="idnsert into board1_free(writer,subject,content,upload)
 				values('{$writer}','{$subject}','{$content}','{$upload}')";	
 		}
 	}
@@ -65,14 +82,14 @@ if($result)
 {
 		echo "<script>
 		alert('게시글이 작성 되었습니다.');
-		location.href='/free_board.php';
+		location.href='/free_board.php?page={$page}';
 		</script>";
 }
 else
 {
 		echo "<script>
 		alert('게시글 작성에 실패 했습니다.');
-		location.href='/free_board.php';
+		location.href='/free_board.php?page={$page}';
 		</script>";
 }
 mysqli_close($conn);
