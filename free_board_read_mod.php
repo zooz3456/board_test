@@ -29,9 +29,20 @@ input.button{
 </head>
 <body>
 <?php
-$no=$_GET['no'];
-include 'conn.php';
+
 SESSION_START();
+if(!isset($_SESSION['id']))
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	exit;
+}
+$no=$_POST['no'];
+$page=$_POST['page'];
+
+include 'conn.php';
 if($_SESSION['id']=='admin')
 {
 $sql="select*from board1_admin where no={$no}";
@@ -46,6 +57,7 @@ $arr=mysqli_fetch_assoc($result);
 <div align='center'>
 <table class='type06' border="1" width="50%" align='center'>
 <tr><th class='type06' width="90px">제목</th><td>
+<input type='hidden' name='page' value='<?=$page?>'>
 <input type='hidden' name='writer' value='<?=$arr['writer']?>'>
 <input type='hidden' name='no' value='<?=$arr['no']?>'>
 <input type='text' name='subject'
@@ -70,11 +82,12 @@ writer = $("input[name='writer']").val();
 no = $("input[name='no']").val();
 subject = $("input[name='subject']").val();
 content = $("textarea[name='content']").val(); 
+page= $("input[name='page']").val();
 
 $.ajax({
 	type : "POST",
 	url : "free_board_read_mod_proc.php",
-	data : {writer:writer,no:no,subject:subject,content:content},
+	data : {writer:writer,no:no,subject:subject,content:content,page:page},
 	success:func
 });
 }

@@ -30,14 +30,32 @@ input.button{
 SESSION_START();
 //게시글 출력을 위한 query 문
 $no=$_GET['no'];
+$page=$_GET['page'];
 include 'conn.php';
-
+if($page<=0)
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	mysqli_close($conn);
+	exit;	
+}
 $sql="update board1_free set hit=hit+1 where no={$no}";
 $result=mysqli_query($conn,$sql);
 
 $sql="select * from board1_free where no={$no}";
 $result=mysqli_query($conn,$sql);
-$arr=mysqli_fetch_assoc($result);
+if(!$result)
+{
+	echo "<script>
+	alert('페이지에 오류가 발생했습니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	mysqli_close($conn);
+	exit;
+}
+$arr=@mysqli_fetch_assoc($result);
 ?>
 <!-- 게시글 출력 -->
 <div align='center'>
@@ -88,9 +106,10 @@ if(isset($_SESSION['id']))
 if($_SESSION['id']==$arr['writer'] or $_SESSION['id']=="admin")
 {
 ?>
-<form method='GET'>
+<form method='POST'>
 <input type='hidden' name='board_name' value='board1_free' >
 <input type='hidden' name='no' value='<?=$arr['no']?>' >
+<input type='hidden' name='page' value='<?=$page?>'>
 <input type='submit' value='수정'
 formaction='free_board_read_mod.php'>
 
@@ -102,7 +121,7 @@ formaction='free_board_read_del.php'>
 }
 ?>
 <input type='button' value='목록으로'
-onclick="location.href='free_board.php'">
+onclick="location.href='free_board.php?page=<?=$page?>'">
 </form>
 </div>
 <br>
@@ -135,11 +154,11 @@ echo "<input type='text' name='writer'></td>";
 <div align='center'>
 <!-- 댓글 출력 -->
 <?php
-mysqli_free_result($result);
+@mysqli_free_result($result);
 $sql="select no,writer,content,board_no from free_reply where board_no={$arr['no']}";
 $result=mysqli_query($conn,$sql);
-$rows=mysqli_num_rows($result);
-$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
+$rows=@mysqli_num_rows($result);
+$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
 if($rows)
 {
 	echo "<table class='type06' border='1' width='80%' align='center'>";
@@ -170,6 +189,9 @@ echo "<td><input class='button' type='submit' value='삭제'></td>";
 }
 echo "</table>";
 }
+
+@mysqli_free_result($result);
+@mysqli_close($conn);
 ?>
 </div>
 </body>

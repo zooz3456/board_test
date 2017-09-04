@@ -1,4 +1,13 @@
 <?php
+SESSION_START();
+if(!isset($_POST['no']))
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	exit;
+}
 include 'conn.php';
 $no=$_POST['no'];
 $writer=mysqli_real_escape_string($conn,$_POST['writer']);

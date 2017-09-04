@@ -30,6 +30,7 @@ input.button{
 SESSION_START();
 //게시글 출력을 위한 query 문
 $no=$_GET['no'];
+$page=$_GET['page'];
 include 'conn.php';
 
 $sql="update board1_admin set hit=hit+1 where no={$no}";
@@ -88,9 +89,10 @@ if(isset($_SESSION['id']))
 if($_SESSION['id']==$arr['writer'] or $_SESSION['id']=="admin")
 {
 ?>
-<form method='GET' action='' >
+<form method='POST' action='' >
 <input type='hidden' name='no' value='<?=$arr['no']?>'>
 <input type='hidden' name='writer' value='<?=$arr['writer']?>'>
+<input type='hidden' name='page' value='<?=$page?>'>
 <input type='hidden' name='board_name' value='board1_admin'>
 <input type='submit' value='수정'
 formaction='free_board_read_mod.php'>
@@ -101,7 +103,7 @@ formaction='free_board_read_del.php'>
 }
 ?>
 <input type='button' value='목록으로'
-onclick="location.href='free_board.php'">
+onclick="location.href='free_board.php?page=<?=$page?>'">
 </form>
 </div>
 <br>
