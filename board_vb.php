@@ -176,10 +176,10 @@ else
 
 	<div style='margin-left:30%; margin-top:5px;'>방명록</div>
 	<ul class="style1">
-		<li class="first"><a href="\free_board.php">자유 게시판</a></li>
-		<li><a href="board1_qa_main.php">질문 게시판</a></li>
-		<li><a href="st.php">이미지 게시판</a></li>
-		<li><a href="board_vb.php">방명록</a></li>
+		<li class="first"><a href="\free_board.php?page=1">자유 게시판</a></li>
+		<li><a href="board1_qa_main.php?page=1">질문 게시판</a></li>
+		<li><a href="st.php?page=1">이미지 게시판</a></li>
+		<li><a href="board_vb.php?page=1">방명록</a></li>
 	</ul>
 
 
@@ -207,21 +207,69 @@ else
 {
 	$page = 0;
 }
+// !!페이지 분활
+if(isset($_POST['search'])!="")
+	{
+		$field=$_POST['field'];
+		$search=mysqli_real_escape_string($conn,$_POST['search']);
+		$sql="select no from board1_vb where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";	
+	}
+	else
+	{
+		$sql="select no from board1_vb";
+	}
+		$result = mysqli_query($conn,$sql);
+		$rows = mysqli_num_rows($result);
+		//$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
+		$num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
+// !!페이지 분활
+if($_GET['page']<=-1 or $_GET['page']>$num_page)
+{
+	echo "<script>
+	alert('비 정상적인 접근입니다.');
+	location.href='/board_vb.php?page=1';
+	</script>";
+	exit;
+}
+	
 	$sql="select * from board1_vb order by no DESC limit {$page},{$per_page} ";
 	$result=mysqli_query($conn,$sql);
+if(!$result)
+{
+	echo "<script>
+	alert('페이지에 오류가 발생했습니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	mysqli_close($conn);
+	exit;
+}
 	$rows=mysqli_num_rows($result);
 	$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
 if($rows)
 {
+
 	for($i=0; $i<$rows; $i++)
 	{
 		?>
+		<form method='POST' action='board_vb_del.php'>
+		<input type='hidden' name='no' value='<?=$arr[$i]['no']?>'>
+		<input type='hidden' name='page' value='<?=$_GET['page']?>'>
 		<tr>
 		<td><?=$arr[$i]['writer']?></td>
 		<td><?=$arr[$i]['content']?></td>
+		<?php
+		if(@$_SESSION['id']=="admin")
+		{
+		?>
+		<td width="1%"><input type='submit' value='삭제'></td>
+		<?php
+		}
+		?>
 		</tr>
+		</form>
 		<?php
 	}?>
+	
 
 <?php
 }
@@ -231,12 +279,6 @@ if($rows)
 <div id="content2">
 <?php
 			mysqli_free_result($result);
-
-				$sql="select no from board1_vb";
-				$result = mysqli_query($conn,$sql);
-				$rows = mysqli_num_rows($result);
-				//$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
-				$num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
 			
 			echo "<div style='margin-left:23%;'>";
 			for($i=1; $i<=$num_page; $i++)

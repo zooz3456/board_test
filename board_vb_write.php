@@ -1,5 +1,13 @@
 <?php
 SESSION_START();
+if(!isset($_SESSION['id']))
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='board_vb.php?page=1';
+	</script>";	
+	exit;
+}
 include 'conn.php';
 
 if($_POST['writer']=='' or $_POST['content']=='')
@@ -21,7 +29,7 @@ else
 	{
 		echo "<script>
 		alert('방명록을 작성 했습니다.');
-		location.href='/board_vb.php';
+		location.href='javascript:history.back()';
 		</script>";		
 	}
 	else
