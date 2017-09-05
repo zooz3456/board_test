@@ -27,6 +27,7 @@ input.button{
 }
 </style>
 </head>
+
 <body>
 <?php
 

@@ -1,5 +1,6 @@
 <?php
 SESSION_START();
+
 if(!isset($_SESSION['id']))
 {
 	echo "<script>

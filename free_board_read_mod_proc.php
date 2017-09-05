@@ -10,6 +10,7 @@ if($_POST['subject']=='' or $_POST['content']=='')
 		mysqli_close($conn);
 		exit;
 }
+
 $subject=mysqli_real_escape_string($conn,$_POST['subject']);
 $content=mysqli_real_escape_string($conn,$_POST['content']);
 $no=$_POST['no'];

@@ -1,8 +1,4 @@
 <?php
-
-//print_r($_FILES);
-//sleep(3000); 3초간 대기
-
 if(!isset($_POST['page']))
 {
 	echo "<script>

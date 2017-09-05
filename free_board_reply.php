@@ -1,5 +1,6 @@
 <?php
 SESSION_START();
+
 if(!isset($_POST['no']))
 {
 	echo "<script>

@@ -138,6 +138,7 @@ a:active {
 <title>방명록</title>
 
 </head>
+
 <body>
 <?php
 SESSION_START();

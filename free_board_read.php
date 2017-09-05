@@ -25,6 +25,7 @@ input.button{
 }
 </style>
 </head>
+
 <body>
 <?php
 SESSION_START();

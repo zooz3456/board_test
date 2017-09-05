@@ -125,6 +125,7 @@ a:active {
 <title>자유 게시판</title>
 
 </head>
+
 <body>
 <?php
 SESSION_START();
@@ -163,10 +164,10 @@ else
 
 	<div style='margin-left:25%; margin-top:5px;'>자유게시판</div>
 	<ul class="style1">
-		<li class="first"><a href="free_board.php">자유 게시판</a></li>
+		<li class="first"><a href="free_board.php?page=1">자유 게시판</a></li>
 		<li><a href="board1_qa_main.php">질문 게시판</a></li>
 		<li><a href="st.php">이미지 게시판</a></li>
-		<li><a href="board_vb.php">방명록</a></li>
+		<li><a href="board_vb.php?page=1">방명록</a></li>
 	</ul>
 
 
@@ -182,6 +183,42 @@ else
 //로그인 확인이 되었을경우
 include 'conn.php';
 
+$per_page = 5;
+
+if(isset($_GET['page']))
+{
+	$page= ($_GET['page'] - 1 )*$per_page;
+}
+else
+{
+	$page = 0;
+}
+// !!페이지 분활
+if(isset($_POST['search'])!="")
+	{
+		$field=$_POST['field'];
+		$search=mysqli_real_escape_string($conn,$_POST['search']);
+		$sql="select no from board1_free where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";	
+	}
+	else
+	{
+		$sql="select no from board1_free";
+	}
+		$result = mysqli_query($conn,$sql);
+		$rows = mysqli_num_rows($result);
+		//$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
+		$num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
+// !!페이지 분활
+if($_GET['page']<=-1 or $_GET['page']>$num_page or $_GET['page']==0)
+{
+	echo "<script>
+	alert('비 정상적인 접근입니다.');
+	location.href='/free_board.php?page=1';
+	</script>";
+	exit;
+}
+
+
 //공지사항
 $sql="select * from board1_admin order by no DESC";
 $result=mysqli_query($conn,$sql);
@@ -195,7 +232,7 @@ if($rows)
 	for($i=0; $i<$rows; $i++)
 	{
 		?>
-		<tr style="border-bottom: 1px solid red;" onclick="location.href='free_board_read_admin.php?no=<?=$arr[$i]['no']?>'">
+		<tr style="border-bottom: 1px solid red;" onclick="location.href='free_board_read_admin.php?no=<?=$arr[$i]['no']?>&page=<?=$_GET['page']?>'">
 		<td style=' font-size:13pt; background-color:white'><?=$arr[$i]['no']?></td>
 		<td style=' font-size:13pt; background-color:white'><?=$arr[$i]['writer']?></td>
 		<td style=' font-size:13pt; background-color:white'>[공지]<?=$arr[$i]['subject']?>[<?=$arr[$i]['reply']?>]</td>
@@ -208,16 +245,7 @@ if($rows)
 }
 }
 //search 검색으로 조회 했을때
-$per_page = 5;
 
-if(isset($_GET['page']))
-{
-	$page= ($_GET['page'] - 1 )*$per_page;
-}
-else
-{
-	$page = 0;
-}
 ?>
 
 <?php
@@ -231,9 +259,14 @@ else
 {
 	$sql="select * from board1_free order by no DESC limit {$page},{$per_page}";
 }
-	$result=mysqli_query($conn,$sql);
-	$rows=mysqli_num_rows($result);
-	$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
+	$result=@mysqli_query($conn,$sql);
+if(!$result)
+{
+	mysqli_close($conn);
+	exit;
+}	
+	$rows=@mysqli_num_rows($result);
+	$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
 	
 //게시글들 조회	
 
@@ -242,7 +275,7 @@ if($rows)
 	for($i=0; $i<$rows; $i++)
 	{
 		?>
-		<tr onclick="location.href='free_board_read.php?no=<?=$arr[$i]['no']?>'">
+		<tr onclick="location.href='free_board_read.php?no=<?=$arr[$i]['no']?>&page=<?=$_GET['page']?>'">
 		<td><?=$arr[$i]['no']?></td>
 		<td><?=$arr[$i]['writer']?></td>
 		<td><?=$arr[$i]['subject']?>[<?=$arr[$i]['reply']?>]</td>
@@ -265,24 +298,9 @@ if($rows)
 			<?php
 
 			mysqli_free_result($result);
-			
-			if(isset($_POST['search'])!="")
-			{
-				$field=$_POST['field'];
-				$search=mysqli_real_escape_string($conn,$_POST['search']);
-				$sql="select no from board1_free where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";	
-			}
-			else
-			{
-				$sql="select no from board1_free";
-			}
-				$result = mysqli_query($conn,$sql);
-				$rows = mysqli_num_rows($result);
-				//$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
-				$num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
-
+				
 			for($i=1; $i<=$num_page; $i++)
-			{				
+			{	
 				echo "<a href='/free_board.php?page={$i}'>{$i}</a>&nbsp";
 			}
 ?> 			<tr><td>
@@ -300,7 +318,7 @@ if($rows)
 				{
 				?>
 				<td>
-				<input type='button' onclick=location.href='free_board_write.php' value='글쓰기'>
+				<input type='button' onclick=location.href='free_board_write.php?page=<?=$_GET['page']?>' value='글쓰기'>
 
 				<?php
 				}
@@ -313,4 +331,6 @@ if($rows)
 
 </table>
 </form>
+
+
 </body>
