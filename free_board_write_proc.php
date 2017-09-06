@@ -1,5 +1,5 @@
 <?php
-if(!isset($_POST['writer']))
+if(!isset($_POST['page']))
 {
 	echo "<script>
 	alert('비정상적인 접근입니다.');
@@ -7,7 +7,7 @@ if(!isset($_POST['writer']))
 	</script>";
 	exit;	
 }
-if($_POST['subject']=="")
+if($_POST['writer']=="")
 {
 		echo "<script>
 		alert('제목을 입력 해주세요.');

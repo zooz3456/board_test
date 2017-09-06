@@ -164,7 +164,7 @@ else
 
 	<div style='margin-left:25%; margin-top:5px;'>자유게시판</div>
 	<ul class="style1">
-		<li class="first"><a href="free_board.php">자유 게시판</a></li>
+		<li class="first"><a href="free_board.php?page=1">자유 게시판</a></li>
 		<li><a href="board1_qa_main.php">질문 게시판</a></li>
 		<li><a href="st.php">이미지 게시판</a></li>
 		<li><a href="board_vb.php?page=1">방명록</a></li>
@@ -249,10 +249,10 @@ if($rows)
 ?>
 
 <?php
-if(isset($_GET['search'])!="")
+if(isset($_POST['search'])!="")
 {
-	$field=$_GET['field'];
-	$search=mysqli_real_escape_string($conn,$_GET['search']);
+	$field=$_POST['field'];
+	$search=mysqli_real_escape_string($conn,$_POST['search']);
 	$sql="select * from board1_free where {$field} LIKE '%{$search}%' order by no DESC limit {$page},{$per_page}";	
 }
 else
@@ -292,7 +292,7 @@ if($rows)
 
 
 <div id='footer' align='center'>
-	<form method='GET' action='free_board.php'>
+	<form method='POST' action='free_board.php'>
 		<table class='rist'>
 			
 			<?php
@@ -305,7 +305,6 @@ if($rows)
 			}
 ?> 			<tr><td>
 			<div class='search'>
-				<input type='hidden' name='page' value='<?=$_GET['page']?>'>
 				<select class='search' name='field'>
 					<option value='writer'>작성자</option>
 					<option value='subject'>제목</option>
