@@ -168,7 +168,7 @@ else
 
 
 </div>
-
+<?php include 'conn.php'; ?> 
 <div id="content">
 <table class='type06' border='1' align='center' width="90%">
     <tr>
@@ -177,7 +177,7 @@ else
     </tr>
 <?php
 //로그인 확인이 되었을경우
-include 'conn.php';
+
 if(isset($session['id']))
 {
     if($session['id']=='admin')
@@ -243,7 +243,7 @@ if($rows)
             <?php
 
             mysqli_free_result($result);
-        
+            
             if(isset($_POST['search'])!="")
             {
                 $field=$_POST['field'];
