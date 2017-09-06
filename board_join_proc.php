@@ -4,7 +4,7 @@ if($_POST['id']=="" or $_POST['pass']=="" or $_POST['name']=="" )
 		echo "<script>
 		alert('회원정보를 입력 해주세요.');
 		location.href='javascript:history.back()';
-		</script>";
+		</script>";	
 		exit;
 }
 else
@@ -14,7 +14,7 @@ else
 		echo "<script>
 		alert('ID 중복 체크를 해주세요.');
 		location.href='javascript:history.back()';
-		</script>";
+		</script>";	
 		exit;
 	}
 include 'conn.php';
