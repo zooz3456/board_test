@@ -22,8 +22,7 @@ include 'conn.php';
 $id=mysqli_real_escape_string($conn,$_POST['id']);
 $pass=mysqli_real_escape_string($conn,$_POST['pass']);
 $name=mysqli_real_escape_string($conn,$_POST['name']);
-$email=mysqli_real_escape_string($conn,$_POST['email']);
-
+$email=mysqli_real_escape_string($conn,$_POST['email']); 
 $sql="insert into user(id,pass,name,email)
 	values('{$id}',sha2('{$pass}',0),'{$name}','{$email}')";
 $result=mysqli_query($conn,$sql);
