@@ -1,7 +1,7 @@
 <?php
 SESSION_START();
 
-if(!isset($_SESSION['id']))
+if(!isset($_POST['no']))
 {
 	echo "<script>
 	alert('비정상적인 접근입니다.');
