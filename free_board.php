@@ -125,6 +125,7 @@ a:active {
 <title>자유 게시판</title>
 
 </head>
+
 <body>
 <?php
 SESSION_START();
@@ -163,7 +164,7 @@ else
 
 	<div style='margin-left:25%; margin-top:5px;'>자유게시판</div>
 	<ul class="style1">
-		<li class="first"><a href="free_board.php">자유 게시판</a></li>
+		<li class="first"><a href="free_board.php?page=1">자유 게시판</a></li>
 		<li><a href="board1_qa_main.php">질문 게시판</a></li>
 		<li><a href="st.php">이미지 게시판</a></li>
 		<li><a href="board_vb.php?page=1">방명록</a></li>
