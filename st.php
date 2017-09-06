@@ -162,7 +162,7 @@ else
     <ul class="style1">
         <li class="first"><a href="free_board.php">자유 게시판</a></li>
         <li><a href="board1_qa_main.php">질문 게시판</a></li>
-        <li><a href="st.php">이미지 게시판</a></li>		
+        <li><a href="st.php">이미지 게시판</a></li>
         <li><a href="board_vb.php">방명록</a></li>
     </ul>
 
