@@ -248,7 +248,7 @@ if($rows)
             {
                 $field=$_POST['field'];
                 $search=mysqli_real_escape_string($conn,$_POST['search']);
-                $sql="select no from board1_img where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";
+                $sql="select no from board1 where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";
             }
             else
             {
