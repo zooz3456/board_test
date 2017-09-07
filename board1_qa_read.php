@@ -38,8 +38,6 @@ $result=mysqli_query($conn,$sql);
 $sql="select * from board1_qa where no={$no}";
 $result=mysqli_query($conn,$sql);
 $arr=mysqli_fetch_assoc($result);
-mysqli_free_result();
-mysqli_close();
 ?>
 <!-- 게시글 출력 -->
 <div align='center'>
@@ -65,7 +63,7 @@ mysqli_close();
 <tr>
 <div><td colspan="2">
     <?php
-  if($arr['upload']!="")
+  if(isset($arr['upload']))
   {
     ?>
 <img src="\upload\<?=$arr['upload']?>" width=60% height=60% >
@@ -132,7 +130,6 @@ echo "<input type='text' name='writer'></td>";
 <!-- 댓글 출력 -->
 <?php
 mysqli_free_result($result);
-mysqli_close();
 $sql="select no,writer,content,board_no from reply_qa where board_no={$arr['no']}";
 $result=mysqli_query($conn,$sql);
 $rows=mysqli_num_rows($result);
@@ -142,8 +139,6 @@ if($rows)
     echo "<table class='type06' border='1' width='80%' align='center'>";
 for($i=0; $i<$rows; $i++)
 {
-mysqli_free_result();
-mysqli_close();
 ?>
 <tr>
 <form method='POST' action='board1_qa_reply_del.php'>

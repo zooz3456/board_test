@@ -157,10 +157,10 @@ else
 </table>
     <div style='margin-left:25%;'>질문 게시판</div>
     <ul class="style1">
-        <li class="first"><a href="free_board.php">자유 게시판</a></li>
-		<li><a href="board1_qa_main.php">질문 게시판</a></li>
-        <li><a href="st.php">이미지 게시판</a></li>
-        <li><a href="board_vb.php">방명록</a></li>
+        <li class="first"><a href="free_board.php?page=1">자유 게시판</a></li>
+        <li><a href="board1_qa_main.php?page=1">질문 게시판</a></li>
+        <li><a href="st.php?page=1">이미지 게시판</a></li>
+        <li><a href="board_vb.php?page=1">방명록</a></li>
     </ul>
 
 
@@ -175,19 +175,26 @@ else
 <?php
 //로그인 확인이 되었을경우
 include 'conn.php';
-if(isset($session['id']))
+if(isset($_SESSION['id']))
 {
-    if($session['id']=='admin')
+    if($_SESSION['id']=='admin')
     {
         echo "관리자님 환영합니다.";
     }
     else
     {
-        echo "{$session['id']}님이 로그인 하셨습니니다.";
+        echo "{$_SESSION['id']}님이 로그인 하셨습니니다.";
     }
 }
 //search 검색으로 조회 했을때
 $per_page = 5;
+if($_GET['page']<0)
+{
+  echo "<script>
+        alert('이동되거나 삭제 된 페이지 입니다.');
+        </script>";
+        exit;
+}
 
 if(isset($_GET['page']))
 {
@@ -208,6 +215,13 @@ else
     $sql="select * from board1_qa order by no desc limit {$page},{$per_page}";
 }
     $result=mysqli_query($conn,$sql);
+    if(!$result)
+    {
+      echo "<script>
+            alert('잘못된 정보 입력입니다.');
+            </script>";
+            exit;
+    }
     $rows=mysqli_num_rows($result);
     $arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
 
@@ -235,17 +249,17 @@ if($rows)
 
 
 <div id='footer' align='center'>
-    <form method='POST' action='board1_qa_main.php'>
+    <form method='get' action='board1_qa_main.php'>
         <table class='rist'>
             <tr></td>
             <?php
 
             mysqli_free_result($result);
 
-            if(isset($_POST['search'])!="")
+            if(isset($_GET['search'])!="")
             {
-                $field=$_POST['field'];
-                $search=mysqli_real_escape_string($conn,$_POST['search']);
+                $field=$_GET['field'];
+                $search=mysqli_real_escape_string($conn,$_GET['search']);
                 $sql="select no from board1_qa where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";
             }
             else
@@ -253,10 +267,16 @@ if($rows)
                 $sql="select no from board1_qa";
             }
                 $result = mysqli_query($conn,$sql);
+                if(!$result)
+                {
+                  echo "<script>
+                        alert('잘못된 정보 입력입니다.');
+                        </script>";
+                        exit;
+                }
                 $rows = mysqli_num_rows($result);
                 //$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
                 $num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
-                mysqli_free_result()
 
             for($i=1; $i<=$num_page; $i++)
             {

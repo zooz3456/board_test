@@ -13,7 +13,7 @@ if($subject=='' OR $content=='')
 {
   echo "<script>
         alert('글이 입력되지않았습니다.');
-        location.href='/board1_qa_main.php';
+        location.href='/board1_qa_main.php?page=1';
         </script>";
         mysqli_close($conn);
         exit;
@@ -28,14 +28,14 @@ if($result)
   mysqli_close($conn);
   echo "<script>
         alert('글이 수정되었습니다.');
-        location.href='/board1_qa_main.php';
+        location.href='/board1_qa_main.php?page=1';
         </script>";
 }
 else {
   mysqli_close($conn);
   echo "<script>
         alert('글 수정에 실패하였습니다.');
-        location.href='/board1_qa_main.php';
+        location.href='/board1_qa_main.php?page=1';
         </script>";
 }
 
