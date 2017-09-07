@@ -59,12 +59,7 @@ value='<?=$arr['subject']?>'></td></tr>
 
 <tr><td class='type06' colspan="2">본문 내용</td></tr>
 <?php include 'conn.php'; ?>
-<?php
-if(!isset($_SESSION['id']))
-{
-  exit;
-} 
-?>
+
 <tr><td colspan="2"><textarea cols='80' rows='7' name='content'><?=$arr['content']?> 
 </textarea></td></tr> 
 <tr><th class='type06' colspan='2'><input type='submit' name='mod' value='수정하기'></th></tr> 
