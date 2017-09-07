@@ -29,7 +29,12 @@ input.button{
 <body>
 
 <?php SESSION_START(); ?>
-
+<?php
+if(!isset($_SESSION['id']))
+{
+  exit;
+}
+?> 
 <div align='center'>
 <form method='POST' action='rmfemdfhr.php' enctype='multipart/form-data'>
 <table class='type06' border="1" width="70%" align='center'>
