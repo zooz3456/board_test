@@ -22,7 +22,7 @@ else {
   mysqli_close($conn);
   echo "<script>
         alert('댓글이 등록되지 않았습니다.');
-        location.href='/board1_qa_read.php';
+        location.href='/board1_qa_read.php?no={$no}';
         </script>";
 }
 

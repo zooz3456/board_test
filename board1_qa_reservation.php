@@ -15,7 +15,7 @@
   <td>예약글</td>
   <td><input type='checkbox' name='reserve'>
       <select name='year'></select>
-      <select name='month'></select>
+      <select name='mon'></select>
       <select name='day'></select>
       <select name='hour'></select>
       <select name='min'></select>
