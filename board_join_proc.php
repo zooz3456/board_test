@@ -30,7 +30,7 @@ if($result)
 {
 		echo "<script>
 		alert('회원가입을 완료 했습니다. 로그인 해주세요.');
-		location.href='/free_board.php';
+		location.href='/free_board.php?page=1';
 		</script>";
 }
 else
