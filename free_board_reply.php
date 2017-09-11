@@ -10,7 +10,7 @@ if(!isset($_POST['no']))
 	exit;
 }
 include 'conn.php';
-$no=$_POST['no'];
+$no=(int)mysqli_real_escape_string($conn,$_POST['no']);
 $writer=mysqli_real_escape_string($conn,$_POST['writer']);
 $content=mysqli_real_escape_string($conn,$_POST['content']);
 $board_name=mysqli_real_escape_string($conn,$_POST['board_name']);
@@ -28,11 +28,11 @@ else
 {
 	$sql="insert into free_reply(writer,content,board_name,board_no)
 	values('{$writer}','{$content}','{$board_name}',{$no})";		
-	$result=mysqli_query($conn,$sql);
+	$result=@mysqli_query($conn,$sql);
 	if($result)
 	{	
 		$sql="update {$board_name} set reply = reply + 1 where no={$no}";
-		$result=mysqli_query($conn,$sql);
+		$result=@mysqli_query($conn,$sql);
 		
 		echo "<script>
 		alert('댓글을 작성 했습니다.');

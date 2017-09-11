@@ -16,15 +16,17 @@ if($_POST['subject']=="")
 		exit;
 }
 include 'conn.php';
-$page=$_POST['page'];
+
+$page=(int)mysqli_real_escape_string($conn,$_POST['page']);
 $subject=mysqli_real_escape_string($conn,$_POST['subject']);
 $writer=mysqli_real_escape_string($conn,$_POST['writer']);
 $content=mysqli_real_escape_string($conn,$_POST['content']);
-$year=$_POST['year'];
-$month=$_POST['month'];
-$day=$_POST['day'];
-$hour=$_POST['hour'];
-$min=$_POST['min'];
+//예약날짜
+$year=(int)mysqli_real_escape_string($conn,$_POST['year']);
+$month=(int)mysqli_real_escape_string($conn,$_POST['month']);
+$day=(int)mysqli_real_escape_string($conn,$_POST['day']);
+$hour=(int)mysqli_real_escape_string($conn,$_POST['hour']);
+$min=(int)mysqli_real_escape_string($conn,$_POST['min']);
 
 
 if(is_uploaded_file($_FILES['attach']['tmp_name']))
@@ -68,12 +70,12 @@ else
 		}
 		else
 		{
-				$sql="idnsert into board1_free(writer,subject,content,upload)
+				$sql="insert into board1_free(writer,subject,content,upload)
 				values('{$writer}','{$subject}','{$content}','{$upload}')";	
 		}
 	}
 
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 if($result)
 {
 		echo "<script>

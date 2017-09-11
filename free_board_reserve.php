@@ -8,10 +8,10 @@ $cur_date = date('Y-m-d H:i:s',time());
 while(1)
 {
 $sql="select*from reserve where show_date<='{$cur_date}'";
-$result=mysqli_query($conn,$sql);
-$rows=mysqli_num_rows($result);
-$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
-mysqli_free_result($result);
+$result=@mysqli_query($conn,$sql);
+$rows=@mysqli_num_rows($result);
+$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
+@mysqli_free_result($result);
 if($rows)
 {
 	echo "총{$rows}개의 예약된 게시물을 발견 했습니다.\n";
@@ -28,10 +28,10 @@ if($rows)
 				value('{$arr[$i]['writer']}','{$arr[$i]['subject']}','{$arr[$i]['content']}'
 				,'{$arr[$i]['upload']}')";
 		}
-		$result=mysqli_query($conn,$sql);
+		$result=@mysqli_query($conn,$sql);
 		
 		$sql="delete from reserve where no={$arr[$i]['no']}";
-		$result=mysqli_query($conn,$sql);
+		$result=@mysqli_query($conn,$sql);
 		}
 	echo "예약된 총{$rows}개의 게시물을 작성 했습니다.\n";
 

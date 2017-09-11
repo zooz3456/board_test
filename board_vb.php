@@ -211,7 +211,7 @@ else
 // !!페이지 분활
 if(isset($_POST['search'])!="")
 	{
-		$field=$_POST['field'];
+		$field=mysqli_real_escape_string($conn,$_POST['field']);
 		$search=mysqli_real_escape_string($conn,$_POST['search']);
 		$sql="select no from board1_vb where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";	
 	}
@@ -219,8 +219,8 @@ if(isset($_POST['search'])!="")
 	{
 		$sql="select no from board1_vb";
 	}
-		$result = mysqli_query($conn,$sql);
-		$rows = mysqli_num_rows($result);
+		$result=@mysqli_query($conn,$sql);
+		$rows=@mysqli_num_rows($result);
 		//$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
 		$num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
 // !!페이지 분활
@@ -234,7 +234,7 @@ if($_GET['page']<=-1 or $_GET['page']>$num_page)
 }
 	
 	$sql="select * from board1_vb order by no DESC limit {$page},{$per_page} ";
-	$result=mysqli_query($conn,$sql);
+	$result=@mysqli_query($conn,$sql);
 if(!$result)
 {
 	echo "<script>
@@ -244,8 +244,8 @@ if(!$result)
 	mysqli_close($conn);
 	exit;
 }
-	$rows=mysqli_num_rows($result);
-	$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
+	$rows=@mysqli_num_rows($result);
+	$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
 if($rows)
 {
 

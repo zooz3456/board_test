@@ -30,17 +30,16 @@ input.button{
 <?php
 SESSION_START();
 //게시글 출력을 위한 query 문
+$no=$_GET['no'];
+$page=$_GET['page'];
 include 'conn.php';
 
-$no=(int)mysqli_real_escape_string($_GET['no'],$conn);
-$page=(int)mysqli_real_escape_string($_GET['page'],$conn);
-
 $sql="update board1_admin set hit=hit+1 where no={$no}";
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 
 $sql="select * from board1_admin where no={$no}";
-$result=mysqli_query($conn,$sql);
-$arr=mysqli_fetch_assoc($result);
+$result=@mysqli_query($conn,$sql);
+$arr=@mysqli_fetch_assoc($result);
 ?>
 <!-- 게시글 출력 -->
 <div align='center'>

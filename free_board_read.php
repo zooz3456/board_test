@@ -43,10 +43,10 @@ if($page<=0)
 	exit;	
 }
 $sql="update board1_free set hit=hit+1 where no={$no}";
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 
 $sql="select * from board1_free where no={$no}";
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 if(!$result)
 {
 	echo "<script>
@@ -157,7 +157,7 @@ echo "<input type='text' name='writer'></td>";
 <?php
 @mysqli_free_result($result);
 $sql="select no,writer,content,board_no from free_reply where board_no={$arr['no']}";
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 $rows=@mysqli_num_rows($result);
 $arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
 if($rows)

@@ -9,12 +9,12 @@ if(!isset($_SESSION['id']))
 	</script>";	
 	exit;
 }
-$no=$_POST['no'];
-$page=$_POST['page'];
 include 'conn.php';
+$no=(int)mysql_escape_string($conn,$_POST['no']);
+$page=(int)mysql_escape_string($conn,$_POST['page']);
 
 $sql="delete from board1_vb where no={$no}";
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 if($result)
 {
 		echo "<script>

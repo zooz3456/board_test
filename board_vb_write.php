@@ -20,12 +20,12 @@ if($_POST['writer']=='' or $_POST['content']=='')
 }
 else
 {
-	$writer=$_POST['writer'];
-	$content=$_POST['content'];
+	$writer=mysqli_real_escape_string($conn,$_POST['writer']);
+	$content=mysqli_real_escape_string($conn,$_POST['content']);
 	
 	$sql="insert into board1_vb(writer,content)
 		values('{$writer}','{$content}')";
-	$result=mysqli_query($conn,$sql);
+	$result=@mysqli_query($conn,$sql);
 	if($result)
 	{
 		echo "<script>
@@ -43,5 +43,5 @@ else
 		</script>";			
 	}
 }
-mysqli_close($conn);
+@mysqli_close($conn);
 ?>

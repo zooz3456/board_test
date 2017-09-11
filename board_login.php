@@ -18,16 +18,16 @@ $pass=mysqli_real_escape_string($conn,$_POST['pass']);
 
 
 $sql="select id, active from user where id='{$id}' and pass=sha2('{$pass}',0)";
-$result=mysqli_query($conn,$sql);
-$rows=mysqli_num_rows($result);
-$arr=mysqli_fetch_assoc($result);
+$result=@mysqli_query($conn,$sql);
+$rows=@mysqli_num_rows($result);
+$arr=@mysqli_fetch_assoc($result);
 if($rows)
 {
 	if($arr['active']=='1')
 	{
 		mysqli_free_result($result);
 		$sql="update user set last_login=now() where id='{$arr['id']}'";
-		$result=mysqli_query($conn,$sql);
+		$result=@mysqli_query($conn,$sql);
 		echo "<script>
 		alert('{$arr['id']}님이 로그인 되었습니다.');
 		location.href='javascript:history.back()';

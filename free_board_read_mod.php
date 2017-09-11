@@ -40,10 +40,11 @@ if(!isset($_SESSION['id']))
 	</script>";	
 	exit;
 }
-$no=$_POST['no'];
-$page=$_POST['page'];
-
 include 'conn.php';
+
+$no=(int)mysqli_real_escape_string($conn,$_POST['no']);
+$page=(int)mysqli_real_escape_string($conn,$_POST['page']);
+
 if($_SESSION['id']=='admin')
 {
 $sql="select*from board1_admin where no={$no}";
@@ -52,8 +53,8 @@ else
 {
 $sql="select * from board1_free where no={$no}";
 }
-$result=mysqli_query($conn,$sql);
-$arr=mysqli_fetch_assoc($result);
+$result=@mysqli_query($conn,$sql);
+$arr=@mysqli_fetch_assoc($result);
 ?>
 <div align='center'>
 <table class='type06' border="1" width="50%" align='center'>

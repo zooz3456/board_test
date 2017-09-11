@@ -196,7 +196,7 @@ else
 // !!페이지 분활
 if(isset($_POST['search'])!="")
 	{
-		$field=$_POST['field'];
+		$field=mysqli_real_escape_string($conn,$_POST['field']);
 		$search=mysqli_real_escape_string($conn,$_POST['search']);
 		$sql="select no from board1_free where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";	
 	}
@@ -204,12 +204,12 @@ if(isset($_POST['search'])!="")
 	{
 		$sql="select no from board1_free";
 	}
-		$result = mysqli_query($conn,$sql);
-		$rows = mysqli_num_rows($result);
+		$result = @mysqli_query($conn,$sql);
+		$rows = @mysqli_num_rows($result);
 		//$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
 		$num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
 // !!페이지 분활
-if($_GET['page']<=-1 or $_GET['page']>$num_page or $_GET['page']==0)
+if($_GET['page']<=-1 or $_GET['page']>$num_page)
 {
 	echo "<script>
 	alert('비 정상적인 접근입니다.');
@@ -221,12 +221,12 @@ if($_GET['page']<=-1 or $_GET['page']>$num_page or $_GET['page']==0)
 
 //공지사항
 $sql="select * from board1_admin order by no DESC";
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 if($result)
 {
-$rows=mysqli_num_rows($result);
-$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
-mysqli_free_result($result);
+$rows=@mysqli_num_rows($result);
+$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
+@mysqli_free_result($result);
 if($rows)
 {
 	for($i=0; $i<$rows; $i++)
@@ -252,7 +252,7 @@ if($rows)
 if(isset($_GET['search'])!="")
 {
 	$field=$_GET['field'];
-	$search=mysqli_real_escape_string($conn,$_GET['search']);
+	$search=@mysqli_real_escape_string($conn,$_GET['search']);
 	$sql="select * from board1_free where {$field} LIKE '%{$search}%' order by no DESC limit {$page},{$per_page}";	
 }
 else
@@ -297,7 +297,7 @@ if($rows)
 			
 			<?php
 
-			mysqli_free_result($result);
+			@mysqli_free_result($result);
 				
 			for($i=1; $i<=$num_page; $i++)
 			{	

@@ -22,8 +22,8 @@ if($_POST['subject']=='' or $_POST['content']=='')
 
 $subject=mysqli_real_escape_string($conn,$_POST['subject']);
 $content=mysqli_real_escape_string($conn,$_POST['content']);
-$no=$_POST['no'];
-$page=$_POST['page'];
+$no=(int)mysqli_real_escape_string($conn,$_POST['no']);
+$page=(int)mysqli_real_escape_string($conn,$_POST['page']);
 
 if($_POST['writer']=='admin')
 {
@@ -35,7 +35,7 @@ else
 $sql="update board1_free set subject='{$subject}',content='{$content}'
 		where no={$no}";
 }
-$result=mysqli_query($conn,$sql);
+$result=@mysqli_query($conn,$sql);
 if($result)
 {
 	if($_POST['writer']=='admin')

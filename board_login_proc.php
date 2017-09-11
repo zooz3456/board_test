@@ -8,9 +8,9 @@ while(1)
 $cur_date=date('Y-m-d H:i:m',strtotime('-3 month'));
 
 $sql="select * from user where last_login<='{$cur_date}' and active='1' ";
-$result=mysqli_query($conn,$sql);
-$rows=mysqli_num_rows($result);
-$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
+$result=@mysqli_query($conn,$sql);
+$rows=@mysqli_num_rows($result);
+$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
 mysqli_free_result($result);
 if($rows)
 {	
