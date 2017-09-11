@@ -30,9 +30,10 @@ input.button{
 <?php
 SESSION_START();
 //게시글 출력을 위한 query 문
-$no=$_GET['no'];
-$page=$_GET['page'];
 include 'conn.php';
+
+$no=(int)mysqli_real_escape_string($_GET['no'],$conn);
+$page=(int)mysqli_real_escape_string($_GET['page'],$conn);
 
 $sql="update board1_admin set hit=hit+1 where no={$no}";
 $result=mysqli_query($conn,$sql);
@@ -139,9 +140,9 @@ echo "<input type='text' name='writer'></td>";
 <?php
 mysqli_free_result($result);
 $sql="select no,writer,content,board_no from free_reply where board_name='board1_admin' and board_no={$arr['no']}";
-$result=mysqli_query($conn,$sql);
-$rows=mysqli_num_rows($result);
-$arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
+$result=@mysqli_query($conn,$sql);
+$rows=@mysqli_num_rows($result);
+$arr=@mysqli_fetch_all($result,MYSQLI_ASSOC);
 if($rows)
 {
 	echo "<table class='type06' border='1' width='80%' align='center'>";
