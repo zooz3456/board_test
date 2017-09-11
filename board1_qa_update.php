@@ -3,6 +3,15 @@
 <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
 <?php
 session_start();
+if(!isset($_SESSION['id']))
+{
+  echo "<script>
+        alert('로그인을 하세요');
+        location.href='/board1_qa_main.php?page=1';
+        </script>";
+        exit;
+}
+
  ?>
 
 <head>

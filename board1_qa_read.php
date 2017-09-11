@@ -63,7 +63,7 @@ $arr=mysqli_fetch_assoc($result);
 <tr>
 <div><td colspan="2">
     <?php
-  if($arr['upload']!="")
+  if(isset($arr['upload']))
   {
     ?>
 <img src="\upload\<?=$arr['upload']?>" width=60% height=60% >

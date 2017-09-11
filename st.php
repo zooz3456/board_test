@@ -160,24 +160,21 @@ else
 </table>
     <div style='margin-left:25%;'>이미지 게시판</div>
     <ul class="style1">
-        <li class="first"><a href="free_board.php">자유 게시판</a></li>
-        <li><a href="board1_qa_main.php">질문 게시판</a></li>
-        <li><a href="st.php">이미지 게시판</a></li>		
-        <li><a href="board_vb.php">방명록</a></li>
+        
+        <li class="first"><a href="free_board.php?page=1">자유 게시판</a></li>
+        <li><a href="board1_qa_main.php?page=1">질문 게시판</a></li>
+        <li><a href="st.php?page=1">이미지 게시판</a></li>
+        <li><a href="board_vb.php?page=1">방명록</a></li>
     </ul>
 
 
 </div>
-
+<?php include 'conn.php'; ?> 
 <div id="content">
-<table class='type06' border='1' align='center' width="90%">
-    <tr>
-        <th width="10%" >글 번호</th><th width="15%">작성자</th><th width="20%">제목</th>
-        <th width="20%">작성일</th><th width="10%">조회수</th>
-    </tr>
+
 <?php
 //로그인 확인이 되었을경우
-include 'conn.php';
+
 if(isset($session['id']))
 {
     if($session['id']=='admin')
@@ -211,9 +208,20 @@ else
     $sql="select * from board1_img limit {$page},{$per_page}";
 }
     $result=mysqli_query($conn,$sql);
+    if(!$result)
+    {
+      exit;
+   }
     $rows=mysqli_num_rows($result);
     $arr=mysqli_fetch_all($result,MYSQLI_ASSOC);
-
+    
+?>   
+    <table class='type06' border='1' align='center' width="90%">
+        <tr>
+            <th width="10%" >글 번호</th><th width="15%">작성자</th><th width="20%">제목</th>
+            <th width="20%">작성일</th><th width="10%">조회수</th>
+        </tr>
+      <?php  
 //게시글들 조회
 
 if($rows)
@@ -238,16 +246,15 @@ if($rows)
 
 
 <div id='footer' align='center'>
-    <form method='POST' action='st.php'>
+    <form method='GET' action='st.php'>
         <table class='rist'>
             <?php
 
             mysqli_free_result($result);
-        
-            if(isset($_POST['search'])!="")
+            if(isset($_GET['search'])!="")
             {
-                $field=$_POST['field'];
-                $search=mysqli_real_escape_string($conn,$_POST['search']);
+                $field=$_GET['field'];
+                $search=mysqli_real_escape_string($conn,$_GET['search']);
                 $sql="select no from board1_img where {$field} LIKE '%{$search}%' limit {$page},{$per_page}";
             }
             else
@@ -255,17 +262,22 @@ if($rows)
                 $sql="select no from board1_img";
             }
                 $result = mysqli_query($conn,$sql);
+                if(!$result)
+                {
+                  exit;
+                }
                 $rows = mysqli_num_rows($result);
                 //$per_page = 3;//페이지당 출력 글 갯수 위에 입력해준다
                 $num_page = ceil($rows/$per_page);//ceil($rows/$per_page);
-
+                mysqli_free_result($result);
+                mysqli_close($conn);
             for($i=1; $i<=$num_page; $i++)
             {
                 echo "<a href='/st.php?page={$i}'>{$i}</a>&nbsp";
             }
 ?>        	<tr><td>
             <div class='search'>
-
+                <input type="hidden" name="page" value="1">
                 <select class='search' name='field'>
                     <option value='writer'>작성자</option>
                     <option value='subject'>제목</option>
