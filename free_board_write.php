@@ -30,6 +30,19 @@ input.button{
 <body>
 
 <?php SESSION_START(); 
+$page = $_GET['page'];
+
+$page_check = "/[^0-9]/i";
+$i=preg_match_all($page_check,$page); 
+if($i)
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	exit;	
+}
+
 if(!isset($_SESSION['id']))
 {
 	echo "<script>
@@ -72,7 +85,7 @@ else
 </td></tr>
 <tr><th width="90px">첨부파일</th>
 <td>
-<input type='file' name='attach'>
+<input type='file' accept="audio/*, video/*, image/*" name='attach'>
 </td>
 <tr><td colspan='2'>본문 내용</td>
 </td></tr>
@@ -85,7 +98,7 @@ else
 <input type='submit' value='작성'>
 </form>
 <input type='button' value='목록으로'
-onclick="location.href='free_board.php'">
+onclick="location.href='free_board.php?page=<?=$_GET['page']?>'">
 </div>
 
 <script>

@@ -32,6 +32,27 @@ SESSION_START();
 //게시글 출력을 위한 query 문
 $no=$_GET['no'];
 $page=$_GET['page'];
+
+$no_check = "/[^0-9]/i";
+$i1=preg_match_all($no_check,$no); 
+$i2=preg_match_all($no_check,$page);
+if($i1)
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	exit;	
+}
+elseif($i2)
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='free_board.php?page=1';
+	</script>";	
+	exit;
+}
+
 include 'conn.php';
 
 $sql="update board1_admin set hit=hit+1 where no={$no}";

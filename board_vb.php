@@ -196,6 +196,17 @@ else
 	</tr>
 <?php
 //출력할 게시물 갯수
+$page_check = "/[^0-9]/i";
+$i=preg_match_all($page_check,$_GET['page']); 
+if($i)
+{
+	echo "<script>
+	alert('비정상적인 접근입니다.');
+	location.href='board_vb.php?page=1';
+	</script>";	
+	exit;	
+}
+
 include 'conn.php';
 
 $per_page = 5;
