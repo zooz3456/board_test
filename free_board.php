@@ -244,16 +244,29 @@ if($rows)
 <?php
 }
 }
-//search 검색으로 조회 했을때
-
 ?>
 
 <?php
 if(isset($_GET['search'])!="")
 {
-	$field=$_GET['field'];
-	$search=@mysqli_real_escape_string($conn,$_GET['search']);
+$field=$_GET['field'];
+$search=@mysqli_real_escape_string($conn,$_GET['search']);
+$search_check = "/[^a-z0-9가-힣\!_\-\.]/i";
+//search 검색으로 조회 했을때
+$i=preg_match_all($search_check,$search); 
+  //preg_math 함수는 검색된 경우 1 
+  //preg_match_all 함수는 검색 된 개수를 돌려 줌 
+  if($i) 
+  { 
+    echo "<script>alert('검색 조건에 맞지 않습니다. 조회 불가'); 
+          location.href='free_board.php?page=1';
+		  </script>"; 
+	exit;
+  }  
+  else
+  {
 	$sql="select * from board1_free where {$field} LIKE '%{$search}%' order by no DESC limit {$page},{$per_page}";	
+  }
 }
 else
 {
