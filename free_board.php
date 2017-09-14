@@ -253,7 +253,7 @@ $field=$_GET['field'];
 $search=@mysqli_real_escape_string($conn,$_GET['search']);
 
 $search_check = "/[^a-z0-9가-힣\!_\-\.]/i";
-$filed_check = "/writer|subject|content/i";
+$filed_check = "/[a-z]/i";
 //search 검색으로 조회 했을때
 $i1=preg_match_all($search_check,$search); 
 $i2=preg_match_all($filed_check,$field);
@@ -266,7 +266,7 @@ $i2=preg_match_all($filed_check,$field);
 		  </script>"; 
 	exit;
   }
-  elseif(!$i2)
+  elseif($field!=$i2)
   {
     echo "<script>alert('검색 조건에 맞지 않습니다. 조회 불가'); 
           location.href='free_board.php?page=1';
